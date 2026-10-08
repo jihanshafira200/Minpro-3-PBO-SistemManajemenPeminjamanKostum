@@ -1,0 +1,175 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package Controller;
+
+import java.util.ArrayList;
+import Model.Kostum;
+import Repository.KostumRepository;
+import Interface.CRUDInterface;
+import Repository.Database;
+/**
+ *
+ * @author LENOVO
+ */
+public class KostumController implements CRUDInterface<Kostum> {
+    private KostumRepository repository;
+
+    public KostumController(){
+
+    repository = Database.kostumRepository;
+
+}
+
+
+    public void tambahKostum(Kostum kostum){
+
+        if(kostum == null){
+
+            throw new IllegalArgumentException(
+                    "Data kostum tidak boleh kosong"
+            );
+
+        }
+
+
+        repository.tambahKostum(kostum);
+
+    }
+
+
+    public ArrayList<Kostum> tampilSemuaKostum(){
+
+        return repository.getSemuaKostum();
+
+    }
+
+
+    public Kostum cariKostum(String idKostum){
+
+        if(idKostum == null ||
+           idKostum.trim().isEmpty()){
+
+            throw new IllegalArgumentException(
+                    "ID Kostum tidak boleh kosong"
+            );
+
+        }
+
+
+        return repository.cariKostum(idKostum);
+
+    }
+
+
+    public void updateKostum(
+        String idKostum,
+        String nama,
+        String kategori,
+        int ukuran,
+        double hargaSewa
+){
+
+        if(idKostum == null ||
+           idKostum.trim().isEmpty()){
+
+            throw new IllegalArgumentException(
+                    "ID Kostum tidak boleh kosong"
+            );
+
+        }
+
+
+        repository.updateKostum(
+        idKostum,
+        nama,
+        kategori,
+        ukuran,
+        hargaSewa
+);
+
+    }
+
+
+    public void hapusKostum(String idKostum){
+
+        if(idKostum == null ||
+           idKostum.trim().isEmpty()){
+
+            throw new IllegalArgumentException(
+                    "ID Kostum tidak boleh kosong"
+            );
+
+        }
+
+
+        repository.hapusKostum(idKostum);
+
+    }
+
+    @Override
+    public void tambah(Kostum kostum){
+
+        tambahKostum(kostum);
+
+    }
+
+
+    @Override
+    public void tampil(){
+
+        ArrayList<Kostum> daftar =
+                tampilSemuaKostum();
+
+
+        if(daftar.isEmpty()){
+
+            System.out.println(
+                    "Data kostum belum tersedia"
+            );
+
+            return;
+
+        }
+
+
+        for(Kostum k : daftar){
+
+            k.tampilData();
+
+            System.out.println();
+
+        }
+
+    }
+
+
+    @Override
+    public void update(String id){
+
+    Kostum kostum = cariKostum(id);
+
+    if(kostum == null){
+
+        throw new IllegalArgumentException(
+                "Data kostum tidak ditemukan"
+        );
+
+    }
+
+    System.out.println(
+            "Gunakan updateKostum() untuk mengubah data"
+    );
+
+}
+
+
+    @Override
+    public void hapus(String id){
+
+        hapusKostum(id);
+
+    }
+
+}
